@@ -35,6 +35,24 @@ jobs:
           echo "::set-output name=sha_short::$(git log -1 --format="%h")"
           echo "::set-output name=created_date::$(date "+%s")"
 
+  paths-filter:
+    runs-on: ${{ matrix.os }}
+    outputs:
+      dependency-files: ${{ steps.changes.outputs.dependency-files }}
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@master
+
+      - name: Create path filters
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            dependency-files:
+              - 'pokedex/package.json'
+              - 'pokedex/yarn.lock'
+
+
   build:
     runs-on: ${{ matrix.os }}
     needs: [build-vars]
@@ -67,6 +85,7 @@ jobs:
 
       - name: Setup development buildx
         uses: docker/setup-buildx-action@v2
+        if: needs.paths-filter.outputs.dependency-files == 'true'
         id: devbuilder
 
       - name: Build against prodbuilder
@@ -86,6 +105,7 @@ jobs:
 
       - name: Build against devbuilder
         uses: docker/build-push-action@v3
+        if: needs.paths-filter.outputs.dependency-files == 'true'
         with:
           context: ./pokedex
           push: true
