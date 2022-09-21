@@ -17,6 +17,8 @@ services:
       - pokedex-mongodb
   pokedex-mongodb:
     image: mongo:5.0
+    volumes:
+      - ./pokedex/mongo/prod:/data/db
 
 secrets:
   pokedex_mongodb_url:

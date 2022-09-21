@@ -15,3 +15,5 @@ services:
     command: mongod --quiet --logpath /dev/null
     ports:
       - '27017:27017'
+    volumes:
+      - ./pokedex/mongo/dev:/data/db
