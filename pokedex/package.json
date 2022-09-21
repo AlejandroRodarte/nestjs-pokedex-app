@@ -1,6 +1,6 @@
 {
   "name": "nestjs-fr-pokedex",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pokedex project based on Nest.js, made for a Udemy course made by Fernando Herrera",
   "author": "Alejandro Rodarte",
   "private": true,
