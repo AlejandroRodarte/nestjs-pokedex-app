@@ -39,7 +39,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     needs: [build-vars]
 
-    if: ${{ (github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development')) || (github.event_name == 'pull_request' && (github.base_ref == 'master' || github.base_ref == 'development')) }}
+    if: ${{ (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development')) || (github.event_name == 'pull_request' && (github.base_ref == 'main' || github.base_ref == 'development')) }}
 
     strategy:
       matrix:
