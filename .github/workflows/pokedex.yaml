@@ -37,6 +37,11 @@ jobs:
 
   paths-filter:
     runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
     outputs:
       dependency-files: ${{ steps.changes.outputs.dependency-files }}
     steps:
