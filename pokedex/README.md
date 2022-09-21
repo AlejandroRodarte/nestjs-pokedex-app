@@ -71,3 +71,23 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Running the project
+
+1. Verify that your system has `docker` and `docker-compose` installed
+2. Clone the repository
+3. Create a `secrets/docker/pokedex/mongodb-url.txt` filepath from the root of the project
+4. Inside the file, store a text string with a value of `mongodb://pokedex-mongodb:27017/<your-database-name>`. The reason for the database URL being a secret instead of a public environment variable is in case it implements sensible credentials in the future
+5. Run the *production* version of the application with command
+
+```bash
+docker-compose up
+```
+
+6. Run the *development* version of the application with command
+
+```bash
+docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml up
+```
+
+> Change the image tags for `rodarte/nestjs-fr-pokedex-prod` and `rodarte/nestjs-fr-pokedex-dev` to valid tags found either in the [production](https://hub.docker.com/repository/docker/rodarte/nestjs-fr-pokedex-prod) and [development](https://hub.docker.com/repository/docker/rodarte/nestjs-fr-pokedex-dev) DockerHub repos, or in images that you built locally using the provided `Dockerfile`
