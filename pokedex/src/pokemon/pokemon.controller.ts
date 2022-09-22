@@ -12,6 +12,7 @@ import {
 import { PokemonService } from './pokemon.service';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
+import { PokemonDocument } from './entities/pokemon/pokemon.document';
 
 @Controller('pokemon')
 export class PokemonController {
@@ -19,7 +20,7 @@ export class PokemonController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() createPokemonDto: CreatePokemonDto) {
+  create(@Body() createPokemonDto: CreatePokemonDto): Promise<PokemonDocument> {
     return this.pokemonService.create(createPokemonDto);
   }
 
@@ -28,9 +29,9 @@ export class PokemonController {
     return this.pokemonService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pokemonService.findOne(+id);
+  @Get(':index')
+  findOne(@Param('index') index: string): Promise<PokemonDocument> {
+    return this.pokemonService.findOne(index);
   }
 
   @Patch(':id')
