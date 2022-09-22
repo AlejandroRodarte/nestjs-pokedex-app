@@ -4,6 +4,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { PokemonModule } from './pokemon/pokemon.module';
 import { HealthModule } from './health/health.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { DbHelpersModule } from './db-helpers/db-helpers.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     MongooseModule.forRoot(process.env.MONGODB_URL!),
     PokemonModule,
     HealthModule,
+    DbHelpersModule,
   ],
   controllers: [],
   providers: [],
