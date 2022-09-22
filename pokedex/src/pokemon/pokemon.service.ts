@@ -67,8 +67,12 @@ export class PokemonService {
     return this.savePokemon(pokemonWithUpdates);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pokemon`;
+  async remove(index: string): Promise<void> {
+    const pokemonDocument = await this.findOne(index);
+    const [, error] = await this.dbHelpersService.remove({
+      doc: pokemonDocument,
+    });
+    if (error) this.handleMongoServerError(error);
   }
 
   private async savePokemon(
@@ -89,7 +93,7 @@ export class PokemonService {
         )}`,
       );
     throw new InternalServerErrorException(
-      'Can not save/update Pokemon. Check server logs',
+      'Can not save/update/delete Pokemon. Check server logs',
     );
   }
 }

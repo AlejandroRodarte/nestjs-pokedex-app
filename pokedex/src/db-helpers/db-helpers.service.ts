@@ -3,6 +3,7 @@ import { MongoServerError } from 'mongodb';
 import mongoose from 'mongoose';
 import { AsyncTuple } from 'src/types/async-tuple.type';
 import { FindOneArgs } from './interfaces/find-one-args.interface';
+import { RemoveArgs } from './interfaces/remove-args.interface';
 
 @Injectable()
 export class DbHelpersService {
@@ -23,6 +24,17 @@ export class DbHelpersService {
     try {
       const document = await args.Model.findOne(args.filters);
       return [document, undefined];
+    } catch (e) {
+      if (e instanceof MongoServerError) return [undefined, e];
+    }
+  }
+
+  async remove<DocumentType extends mongoose.Document>(
+    args: RemoveArgs<DocumentType>,
+  ): AsyncTuple<DocumentType, MongoServerError> {
+    try {
+      const deletedDocument = await args.doc.remove(args.options);
+      return [deletedDocument, undefined];
     } catch (e) {
       if (e instanceof MongoServerError) return [undefined, e];
     }
