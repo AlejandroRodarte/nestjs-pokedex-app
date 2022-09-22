@@ -67,8 +67,8 @@ export class PokemonService {
     return this.savePokemon(pokemonWithUpdates);
   }
 
-  async remove(index: string): Promise<void> {
-    const pokemonDocument = await this.findOne(index);
+  async remove(id: string): Promise<void> {
+    const pokemonDocument = await this.findOne(id);
     const [, error] = await this.dbHelpersService.remove({
       doc: pokemonDocument,
     });

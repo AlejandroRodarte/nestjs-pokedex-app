@@ -5,6 +5,7 @@ import { PokemonModule } from './pokemon/pokemon.module';
 import { HealthModule } from './health/health.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DbHelpersModule } from './db-helpers/db-helpers.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { DbHelpersModule } from './db-helpers/db-helpers.module';
     PokemonModule,
     HealthModule,
     DbHelpersModule,
+    CommonModule,
   ],
   controllers: [],
   providers: [],

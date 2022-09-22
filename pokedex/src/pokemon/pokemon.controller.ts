@@ -13,6 +13,7 @@ import { PokemonService } from './pokemon.service';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { PokemonDocument } from './entities/pokemon/pokemon.document';
+import { ParseMongoIdPipe } from '../common/pipes/parse-mongo-id.pipe';
 
 @Controller('pokemon')
 export class PokemonController {
@@ -42,9 +43,9 @@ export class PokemonController {
     return this.pokemonService.update(index, updatePokemonDto);
   }
 
-  @Delete(':index')
+  @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('index') id: string): Promise<void> {
+  remove(@Param('id', ParseMongoIdPipe) id: string): Promise<void> {
     return this.pokemonService.remove(id);
   }
 }
