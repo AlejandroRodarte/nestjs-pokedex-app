@@ -12,6 +12,7 @@ import { Pokemon } from './entities/pokemon/pokemon.schema';
 import { DbHelpersService } from '../db-helpers/db-helpers.service';
 import { PokemonDocument } from './entities/pokemon/pokemon.document';
 import { FilterQuery, isValidObjectId } from 'mongoose';
+import { MongoServerError } from 'mongodb';
 
 @Injectable()
 export class PokemonService {
@@ -76,19 +77,19 @@ export class PokemonService {
     const [savedPokemon, error] = await this.dbHelpersService.save(
       pokemonDocument,
     );
-
-    if (error) {
-      if (error.code === 11000)
-        throw new BadRequestException(
-          `Trying to insert/update record with an already existing index. Duplicate index is ${JSON.stringify(
-            error.keyValue,
-          )}`,
-        );
-      throw new InternalServerErrorException(
-        'Can not save/update Pokemon. Check server logs',
-      );
-    }
-
+    if (error) this.handleMongoServerError(error);
     return savedPokemon;
+  }
+
+  private handleMongoServerError(mse: MongoServerError): void {
+    if (mse.code === 11000)
+      throw new BadRequestException(
+        `Trying to insert/update record with an already existing index. Duplicate index is ${JSON.stringify(
+          mse.keyValue,
+        )}`,
+      );
+    throw new InternalServerErrorException(
+      'Can not save/update Pokemon. Check server logs',
+    );
   }
 }
