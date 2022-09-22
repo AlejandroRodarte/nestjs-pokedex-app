@@ -27,3 +27,13 @@ PokemonSchema.static(
     return new pokemonModel(attrs);
   },
 );
+
+PokemonSchema.method(
+  'updateFields',
+  function (attrs: Partial<PokemonAttributes>): PokemonDocument {
+    const pokemonDocument = this as PokemonDocument;
+    if (attrs.name) pokemonDocument.name = attrs.name.toLowerCase();
+    if (attrs.no) pokemonDocument.no = attrs.no;
+    return pokemonDocument;
+  },
+);

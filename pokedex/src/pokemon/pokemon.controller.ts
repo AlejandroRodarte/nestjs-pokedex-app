@@ -34,9 +34,12 @@ export class PokemonController {
     return this.pokemonService.findOne(index);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePokemonDto: UpdatePokemonDto) {
-    return this.pokemonService.update(+id, updatePokemonDto);
+  @Patch(':index')
+  update(
+    @Param('index') index: string,
+    @Body() updatePokemonDto: UpdatePokemonDto,
+  ): Promise<PokemonDocument> {
+    return this.pokemonService.update(index, updatePokemonDto);
   }
 
   @Delete(':id')

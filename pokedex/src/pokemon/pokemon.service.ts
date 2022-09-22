@@ -1,4 +1,3 @@
-import { MongoServerError } from 'mongodb';
 import {
   BadRequestException,
   Injectable,
@@ -23,21 +22,7 @@ export class PokemonService {
 
   async create(createPokemonDto: CreatePokemonDto): Promise<PokemonDocument> {
     const pokemonDocument = this.pokemonModel.build(createPokemonDto);
-    const [savedPokemon, error] = await this.dbHelpersService.save(
-      pokemonDocument,
-    );
-    if (error) {
-      if (error.code === 11000)
-        throw new BadRequestException(
-          `Trying to insert record with an already existing index. Duplicate index is ${JSON.stringify(
-            error.keyValue,
-          )}`,
-        );
-      throw new InternalServerErrorException(
-        'Can not create Pokemon. Check server logs',
-      );
-    }
-    return savedPokemon;
+    return this.savePokemon(pokemonDocument);
   }
 
   findAll() {
@@ -72,11 +57,38 @@ export class PokemonService {
     return pokemonDocument;
   }
 
-  update(id: number, updatePokemonDto: UpdatePokemonDto) {
-    return `This action updates a #${id} pokemon`;
+  async update(
+    index: string,
+    updatePokemonDto: UpdatePokemonDto,
+  ): Promise<PokemonDocument> {
+    const pokemonDocument = await this.findOne(index);
+    const pokemonWithUpdates = pokemonDocument.updateFields(updatePokemonDto);
+    return this.savePokemon(pokemonWithUpdates);
   }
 
   remove(id: number) {
     return `This action removes a #${id} pokemon`;
+  }
+
+  private async savePokemon(
+    pokemonDocument: PokemonDocument,
+  ): Promise<PokemonDocument> {
+    const [savedPokemon, error] = await this.dbHelpersService.save(
+      pokemonDocument,
+    );
+
+    if (error) {
+      if (error.code === 11000)
+        throw new BadRequestException(
+          `Trying to insert/update record with an already existing index. Duplicate index is ${JSON.stringify(
+            error.keyValue,
+          )}`,
+        );
+      throw new InternalServerErrorException(
+        'Can not save/update Pokemon. Check server logs',
+      );
+    }
+
+    return savedPokemon;
   }
 }
