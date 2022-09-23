@@ -91,3 +91,9 @@ docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml up
 ```
 
 > Change the image tags for `rodarte/nestjs-fr-pokedex-prod` and `rodarte/nestjs-fr-pokedex-dev` to valid tags found either in the [production](https://hub.docker.com/repository/docker/rodarte/nestjs-fr-pokedex-prod) and [development](https://hub.docker.com/repository/docker/rodarte/nestjs-fr-pokedex-dev) DockerHub repos, or in images that you built locally using the provided `Dockerfile`
+
+## Populating the database
+
+1. Make sure that you have a stable internet connection available
+2. Hit the `GET /seed` endpoint from a browser or a utility like Postman
+3. If you get back a simple `Seed executed. <limit> records saved to the database.` string token as result, data should have been populated into the database

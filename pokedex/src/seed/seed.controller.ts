@@ -6,7 +6,7 @@ export class SeedController {
   constructor(private readonly seedService: SeedService) {}
 
   @Get()
-  populate() {
+  populate(): Promise<string> {
     return this.seedService.populate();
   }
 }
