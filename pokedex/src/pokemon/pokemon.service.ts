@@ -28,7 +28,13 @@ export class PokemonService {
   }
 
   async findAll(paginationDto: PaginationDto): Promise<PokemonDocument[]> {
-    const pokemons = await this.pokemonModel.find({});
+    const pokemonsQuery = this.pokemonModel
+      .find({})
+      .sort({ no: 1 })
+      .select('-__v');
+    if (paginationDto.limit) pokemonsQuery.limit(paginationDto.limit);
+    if (paginationDto.offset) pokemonsQuery.skip(paginationDto.offset);
+    const pokemons = await pokemonsQuery;
     return pokemons;
   }
 
