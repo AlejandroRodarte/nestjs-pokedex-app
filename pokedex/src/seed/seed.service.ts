@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { PokemonDocument } from 'src/pokemon/entities/pokemon/pokemon.document';
 import { PokemonModel } from 'src/pokemon/entities/pokemon/pokemon.model';
 import { Pokemon } from 'src/pokemon/entities/pokemon/pokemon.schema';
 import { PokeResponse } from './interfaces/poke-response.interface';
-import { AxiosAdapter } from '../common/adapters/axios.adapter';
+import { HttpAdapter } from 'src/common/interfaces/http-adapter.interface';
+import { HTTP_ADAPTER_SEED_SERVICE } from './interfaces/http-adapter.interface.tokens';
 
 @Injectable()
 export class SeedService {
@@ -12,7 +13,7 @@ export class SeedService {
 
   constructor(
     @InjectModel(Pokemon.name) private readonly pokemonModel: PokemonModel,
-    private readonly http: AxiosAdapter,
+    @Inject(HTTP_ADAPTER_SEED_SERVICE) private readonly http: HttpAdapter,
   ) {}
 
   async populate(): Promise<string> {
