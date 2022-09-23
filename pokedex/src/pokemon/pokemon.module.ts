@@ -5,12 +5,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Pokemon, PokemonSchema } from './entities/pokemon/pokemon.schema';
 import { DbHelpersModule } from '../db-helpers/db-helpers.module';
 
+const DynamicMongooseModule = MongooseModule.forFeature([
+  { name: Pokemon.name, schema: PokemonSchema },
+]);
+
 @Module({
   controllers: [PokemonController],
-  imports: [
-    DbHelpersModule,
-    MongooseModule.forFeature([{ name: Pokemon.name, schema: PokemonSchema }]),
-  ],
+  exports: [DynamicMongooseModule],
+  imports: [DbHelpersModule, DynamicMongooseModule],
   providers: [PokemonService],
 })
 export class PokemonModule {}
