@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { MongoServerError } from 'mongodb';
+import { MongoServerError, DeleteResult } from 'mongodb';
 import mongoose from 'mongoose';
 import { AsyncTuple } from 'src/types/async-tuple.type';
+import { DeleteOneArgs } from './interfaces/delete-one-args.interface';
 import { FindOneArgs } from './interfaces/find-one-args.interface';
 import { RemoveArgs } from './interfaces/remove-args.interface';
 
@@ -35,6 +36,17 @@ export class DbHelpersService {
     try {
       const deletedDocument = await args.doc.remove(args.options);
       return [deletedDocument, undefined];
+    } catch (e) {
+      if (e instanceof MongoServerError) return [undefined, e];
+    }
+  }
+
+  async deleteOne<DocumentType, ModelType extends mongoose.Model<DocumentType>>(
+    args: DeleteOneArgs<DocumentType, ModelType>,
+  ): AsyncTuple<DeleteResult, MongoServerError> {
+    try {
+      const qwh = await args.Model.deleteOne(args.filters, args.options);
+      return [qwh, undefined];
     } catch (e) {
       if (e instanceof MongoServerError) return [undefined, e];
     }

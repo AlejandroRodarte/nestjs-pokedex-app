@@ -68,11 +68,18 @@ export class PokemonService {
   }
 
   async remove(id: string): Promise<void> {
-    const pokemonDocument = await this.findOne(id);
-    const [, error] = await this.dbHelpersService.remove({
-      doc: pokemonDocument,
+    const [deleteResult, error] = await this.dbHelpersService.deleteOne<
+      PokemonDocument,
+      PokemonModel
+    >({
+      Model: this.pokemonModel,
+      filters: { _id: id },
     });
     if (error) this.handleMongoServerError(error);
+    if (deleteResult.deletedCount === 0)
+      throw new BadRequestException(
+        `Pokemon with ID ${id} was not found in the database`,
+      );
   }
 
   private async savePokemon(
