@@ -13,6 +13,7 @@ import { DbHelpersService } from '../db-helpers/db-helpers.service';
 import { PokemonDocument } from './entities/pokemon/pokemon.document';
 import { FilterQuery, isValidObjectId } from 'mongoose';
 import { MongoServerError } from 'mongodb';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class PokemonService {
@@ -26,8 +27,9 @@ export class PokemonService {
     return this.savePokemon(pokemonDocument);
   }
 
-  findAll() {
-    return `This action returns all pokemon`;
+  async findAll(paginationDto: PaginationDto): Promise<PokemonDocument[]> {
+    const pokemons = await this.pokemonModel.find({});
+    return pokemons;
   }
 
   async findOne(index: string): Promise<PokemonDocument> {
