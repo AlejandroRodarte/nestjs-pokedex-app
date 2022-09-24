@@ -72,19 +72,47 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](LICENSE).
 
+## Environment variables required to run the application
+
+| Environment variable | Description |
+| -------------------- | ----------- |
+| `NODE_ENV` | Node environment. In this mode, four values are supported: `development`, `development-docker`, `production`, `production-docker`. For `development`, file `.env.development` is loaded. For `production`, file `.env.production` is loaded |
+| `MONGODB_URL` | URI to the MongoDB database of your application. Must be a valid MongoDB URI |
+| `PORT` | Port where the application will be deployed to. Defaults to `3000` if not specified |
+| `POKEMON_SEED_API` | API used to fetch the pokemon data. Recommended value is `https://pokeapi.co/api/v2/pokemon` |
+| `POKEMON_SEED_LIMIT` | Amount of pokemon objects fetched from `POKEMON_SEED_API`. Defaults to `30` if not specified |
+
 ## Running the project
+
+### Using `node.js` installed in your computer
+
+1. Verify that you are running version 16 of `node.js` or a superior one
+2. Create a `pokedex/env/.env.<node-env>` environment file that matches the structure below. `<node-env>` is a dynamic value injected from `process.env.NODE_ENV`, which can be either `development` or `production`
+
+```env
+NODE_ENV=<node-environment>
+MONGODB_URL=<your-mongodb-url>
+PORT=<application-port>
+POKEMON_SEED_API=<pokemon-seed-api-url>
+POKEMON_SEED_LIMIT=<pokemon-seed-limit>
+```
+
+> Please refer to the `pokedex/env/.env.template` file to know how to define your `.env` files
+
+### Using `docker` and `docker-compose`
 
 1. Verify that your system has `docker` and `docker-compose` installed
 2. Clone the repository
 3. Create a `secrets/docker/pokedex/mongodb-url.txt` filepath from the root of the project
 4. Inside the file, store a text string with a value of `mongodb://pokedex-mongodb:27017/<your-database-name>`. The reason for the database URL being a secret instead of a public environment variable is in case it implements sensible credentials in the future
-5. Run the *production* version of the application with command
+5. Define environment values for `PORT`, `POKEMON_SEED_API`, and `POKEMON_SEED_LIMIT` either in `docker-compose.yaml` for the *production* version of in `docker-compose.dev.taml` for the *development* version
+6. Run the *production* version of the application with command
 
 ```bash
 docker-compose up
 ```
 
-6. Run the *development* version of the application with command
+7. Run the *development* version of the application with command
 
 ```bash
 docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml up
