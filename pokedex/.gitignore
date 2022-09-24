@@ -36,3 +36,6 @@ lerna-debug.log*
 
 # MongoDB data
 mongo/
+
+# Environment files
+env/

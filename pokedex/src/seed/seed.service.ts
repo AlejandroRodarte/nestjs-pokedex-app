@@ -6,22 +6,23 @@ import { Pokemon } from 'src/pokemon/entities/pokemon/pokemon.schema';
 import { PokeResponse } from './interfaces/poke-response.interface';
 import { HttpAdapter } from 'src/common/interfaces/http-adapter.interface';
 import { HTTP_ADAPTER_SEED_SERVICE } from './interfaces/http-adapter.interface.tokens';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SeedService {
-  private readonly LIMIT = 650;
-
   constructor(
     @InjectModel(Pokemon.name) private readonly pokemonModel: PokemonModel,
     @Inject(HTTP_ADAPTER_SEED_SERVICE) private readonly http: HttpAdapter,
+    private readonly configService: ConfigService,
   ) {}
 
   async populate(): Promise<string> {
+    const api = this.configService.get<string>('seed.api');
+    const limit = this.configService.get<string>('seed.limit');
+
     await this.pokemonModel.deleteMany({});
 
-    const [data] = await this.http.get<PokeResponse>(
-      `https://pokeapi.co/api/v2/pokemon?limit=${this.LIMIT}`,
-    );
+    const [data] = await this.http.get<PokeResponse>(`${api}?limit=${limit}`);
 
     const pokemonDocuments: PokemonDocument[] = data.results.map(
       (smallPokemon) => {
@@ -33,6 +34,6 @@ export class SeedService {
     );
 
     await this.pokemonModel.insertMany(pokemonDocuments);
-    return `Seed executed. ${this.LIMIT} records saved to the database.`;
+    return `Seed executed. ${limit} records saved to the database.`;
   }
 }

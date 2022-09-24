@@ -10,7 +10,10 @@ services:
       - '3000:3000'
     environment:
       <<: *common-env-variables
+      PORT: 3000
       MONGODB_URL_FILE_PATH: /run/secrets/pokedex_mongodb_url
+      POKEMON_SEED_API: https://pokeapi.co/api/v2/pokemon
+      POKEMON_SEED_LIMIT: 650
     secrets:
       - pokedex_mongodb_url
     depends_on:
