@@ -1,3 +1,6 @@
+.git/
 dist/
-config/
+env/
+mongo/
 node_modules/
+.gitignore
