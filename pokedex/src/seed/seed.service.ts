@@ -18,7 +18,7 @@ export class SeedService {
 
   async populate(): Promise<string> {
     const api = this.configService.get<string>('seed.api');
-    const limit = this.configService.get<string>('seed.limit');
+    const limit = this.configService.get<number>('seed.limit');
 
     await this.pokemonModel.deleteMany({});
 

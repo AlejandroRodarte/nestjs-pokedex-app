@@ -9,10 +9,12 @@ import { DbHelpersModule } from './db-helpers/db-helpers.module';
 import { CommonModule } from './common/common.module';
 import { SeedModule } from './seed/seed.module';
 import configuration from './config/env.config';
+import { EnvSchema } from './config/env.validation';
 
 const configModuleOptions: ConfigModuleOptions = {
   load: [configuration],
   isGlobal: true,
+  validationSchema: EnvSchema,
 };
 
 if (!['development-docker', 'production-docker'].includes(process.env.NODE_ENV))
