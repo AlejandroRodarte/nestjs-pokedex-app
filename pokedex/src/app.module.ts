@@ -17,7 +17,7 @@ const configModuleOptions: ConfigModuleOptions = {
   validationSchema: EnvSchema,
 };
 
-if (!['development-docker', 'production-docker'].includes(process.env.NODE_ENV))
+if (!['development-docker', 'production-docker', 'production-heroku'].includes(process.env.NODE_ENV))
   configModuleOptions.envFilePath = `env/.env.${process.env.NODE_ENV}`;
 
 @Module({

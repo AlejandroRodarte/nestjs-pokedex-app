@@ -5,7 +5,7 @@ x-common-env-variables: &common-env-variables
 
 services:
   pokedex:
-    image: rodarte/nestjs-fr-pokedex-dev:1aae241
+    image: rodarte/nestjs-fr-pokedex-dev:7b68eba
     volumes:
       - ./pokedex:/node/app
       - /node/app/node_modules

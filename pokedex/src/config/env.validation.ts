@@ -18,6 +18,7 @@ const nodeEnvSchema = Joi.string()
     'development-docker',
     'production',
     'production-docker',
+    'production-heroku',
   );
 const mongoDbUrlSchema = Joi.string().required().regex(mongoUriRegex);
 const appPortSchema = Joi.number().default(3000);
