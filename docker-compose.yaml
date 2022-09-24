@@ -5,7 +5,7 @@ x-common-env-variables: &common-env-variables
 
 services:
   pokedex:
-    image: rodarte/nestjs-fr-pokedex-prod:67a7381
+    image: rodarte/nestjs-fr-pokedex-prod:0738e31
     ports:
       - '3000:3000'
     environment:
