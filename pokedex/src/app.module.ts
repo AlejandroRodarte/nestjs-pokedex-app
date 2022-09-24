@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { DynamicModule, Module, ModuleMetadata } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule, ConfigModuleOptions } from '@nestjs/config';
 import { PokemonModule } from './pokemon/pokemon.module';
@@ -8,7 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { DbHelpersModule } from './db-helpers/db-helpers.module';
 import { CommonModule } from './common/common.module';
 import { SeedModule } from './seed/seed.module';
-import configuration from './config/configuration';
+import configuration from './config/env.config';
 
 const configModuleOptions: ConfigModuleOptions = {
   load: [configuration],
