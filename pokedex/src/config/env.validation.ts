@@ -9,7 +9,7 @@ interface EnvSchemaInterface {
 }
 
 const mongoUriRegex =
-  /^mongodb:\/\/(?:(?:(\w+)?:(\w+)?@)|:?@?)((?:[\w.-])+)(?::(\d+))?(?:\/([\w-]+))?(?:\?([\w-]+=[\w-]+(?:&[\w-]+=[\w-]+)*)?)?$/;
+  /^mongodb(\+srv)?:\/\/(?:(?:(\w+)?:(\w+)?@)|:?@?)((?:[\w.-])+)(?::(\d+))?(?:\/([\w-]+))?(?:\?([\w-]+=[\w-]+(?:&[\w-]+=[\w-]+)*)?)?$/;
 
 const nodeEnvSchema = Joi.string()
   .required()
